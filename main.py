@@ -1,40 +1,35 @@
 
-from models.borehole import Borehole
-from models.temperature_measurement import TemperatureMeasurement
-from datetime import datetime
+import streamlit as st
+from views.dashboard import display_dashboard
+from views.data_upload import display_data_upload
+from views.results_view import display_results
+from views.graph_view import display_graph
 
-# Create a borehole
-borehole = Borehole(
-    borehole_id="BH001",
-    location="London",
-    total_depth=1500
-)
+def main():
+    st.set_page_config(
+        page_title="Horner Correction System",
+        page_icon="🌡️",
+        layout="wide"
+    )
 
-# Create measurements
-m1 = TemperatureMeasurement(
-    "M001", "BH001", 500, 45.2,
-    datetime.now(), 2.0
-)
+    st.sidebar.title("Navigation")
 
-m2 = TemperatureMeasurement(
-    "M002", "BH001", 500, 46.1,
-    datetime.now(), 4.0
-)
+    page = st.sidebar.radio(
+        "Select a page",
+        ["Dashboard", "Data Input", "Results", "Graph"]
+    )
 
-m3 = TemperatureMeasurement(
-    "M003", "BH001", 1000, 65.4,
-    datetime.now(), 2.0
-)
+    if page == "Dashboard":
+        display_dashboard()
 
-# Add measurements to borehole
-borehole.add_measurement(m1)
-borehole.add_measurement(m2)
-borehole.add_measurement(m3)
+    elif page == "Data Input":
+        display_data_upload()
 
-# Retrieve measurements at 500m
-results = borehole.get_measurements_at_depth(500)
+    elif page == "Results":
+        display_results()
 
-print(borehole)
+    elif page == "Graph":
+        display_graph()
 
-for measurement in results:
-    print(measurement)
+if __name__ == "__main__":
+    main()

@@ -3,7 +3,7 @@ import math
 
 class TemperatureMeasurement:
     def __init__(self,
-        measurement_id: str,
+        measurement_id: int,
         borehole_id: str,
         depth: int,
         temperature: float,
