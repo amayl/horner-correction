@@ -18,6 +18,10 @@ class AnalysisRun:
         if measurement.depth != self.depth:
             raise ValueError("Measurement belongs to another depth")
 
+        for existing_measurement in self.measurements:
+            if existing_measurement.measurement_id == measurement.measurement_id:
+                raise ValueError("Duplicate measurement ID")
+
         self.measurements.append(measurement)
 
     def get_measurements_at_depth(self):

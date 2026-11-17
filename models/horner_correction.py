@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 class HornerCorrection:
     def __init__(self, analysis_run):
@@ -20,11 +21,18 @@ class HornerCorrection:
         x_values, y_values = [], []
 
         for measurement in self.analysis_run.measurements:
-            x_i = self.calculate_log_horner_ratio(measurement.time_since_circulation)
+            x_i = self.calculate_log_horner_ratio(
+                measurement.time_since_circulation
+            )
             x_values.append(x_i)
 
             temperature = measurement.temperature
+
+            if not math.isfinite(temperature):
+                raise ValueError("Temperature must be a finite number")
+
             y_values.append(temperature)
+
         return x_values, y_values
 
     def perform_regression(self):
@@ -35,6 +43,9 @@ class HornerCorrection:
 
         if len(set(x_values)) < 2:
             raise ValueError("At least two distinct Horner values are required")
+
+        if max(x_values) - min(x_values) < 1e-9:
+            raise ValueError("Horner values are too close for reliable regression")
 
         slope, intercept = np.polyfit(x_values, y_values, 1)
         return slope, intercept

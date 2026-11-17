@@ -1,4 +1,5 @@
 from datetime import datetime
+import math
 
 class TemperatureMeasurement:
     def __init__(self,
@@ -22,6 +23,9 @@ class TemperatureMeasurement:
 
     def validate(self):
 
+        if not math.isfinite(self.temperature):
+            raise ValueError("Temperature must be a finite number")
+
         if self.depth <= 0:
             raise ValueError("Depth must be positive")
 
@@ -31,7 +35,13 @@ class TemperatureMeasurement:
         if self.time_since_circulation <= 0:
             raise ValueError("Elapsed time must be positive")
 
+        if self.measurement_id <= 0:
+            raise ValueError("Measurement ID must be positive")
+
         if self.measurement_uncertainty is not None:
+            if not math.isfinite(self.measurement_uncertainty):
+                raise ValueError("Uncertainty must be a finite number")
+
             if self.measurement_uncertainty < 0:
                 raise ValueError("Uncertainty cannot be negative")
 
@@ -43,10 +53,10 @@ class TemperatureMeasurement:
         )
 
 
-measurements1 = TemperatureMeasurement("MH001", "BH001", 1500, 45.2, datetime.now(), 13)
-measurements2 = TemperatureMeasurement("MH002", "BH001", 1500, 46.1, datetime.now(), 14)
+# measurements1 = TemperatureMeasurement("MH001", "BH001", 1500, 45.2, datetime.now(), 13)
+# measurements2 = TemperatureMeasurement("MH002", "BH001", 1500, 46.1, datetime.now(), 14)
 
-measurements = [measurements1, measurements2]
+# measurements = [measurements1, measurements2]
 
-for measurement in measurements:
-    print(measurement)
+# for measurement in measurements:
+#     print(measurement)
