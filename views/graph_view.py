@@ -33,7 +33,7 @@ def display_graph():
     slope = results["slope"]
     intercept = results["intercept"]
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5,2))
 
     # Plot measured temperature values
     ax.scatter(
@@ -60,6 +60,6 @@ def display_graph():
     ax.legend()
     ax.grid(True)
 
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=False)
 
     plt.close(fig)

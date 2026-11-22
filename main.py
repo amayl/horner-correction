@@ -12,6 +12,55 @@ def main():
         layout="wide"
     )
 
+    st.markdown("""
+<style>
+    /* Main content area */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        max-width: 1500px;
+    }
+
+    /* Make sidebar narrower */
+    [data-testid="stSidebar"] {
+        min-width: 240px;
+        max-width: 240px;
+    }
+
+    /* Reduce heading spacing */
+    h1 {
+        font-size: 36px !important;
+        margin-bottom: 0.5rem;
+    }
+
+    h2 {
+        font-size: 29px !important;
+    }
+
+    h3 {
+        font-size: 25px !important;
+    }
+
+    /* Reduce vertical gaps between elements */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.8rem;
+    }
+
+    /* Buttons */
+    .stButton button {
+        padding: 8px 18px;
+        font-size: 16px;
+    }
+
+    /* Metrics */
+    [data-testid="stMetricValue"] {
+        font-size: 28px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
     st.sidebar.title("Navigation")
 
     page = st.sidebar.radio(

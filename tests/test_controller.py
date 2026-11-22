@@ -1,4 +1,6 @@
 from controllers.horner_controller import HornerController
+from controllers.borehole_controller import BoreholeController
+
 import math
 import pytest
 
@@ -88,3 +90,58 @@ def test_perform_analysis():
     assert results["slope"] == pytest.approx(-10)
     assert results["intercept"] == pytest.approx(100)
     assert results["static_formation_temperature"] == pytest.approx(100)
+
+def test_create_borehole():
+
+    controller = BoreholeController()
+
+    borehole = controller.create_borehole(
+        "BH001",
+        "Southall",
+        3000
+    )
+
+    assert borehole.borehole_id == "BH001"
+    assert borehole.location == "Southall"
+    assert borehole.total_depth == 3000
+
+    assert "BH001" in controller.boreholes
+    assert controller.boreholes["BH001"] is borehole
+
+def test_duplicate_borehole_id():
+
+    controller = BoreholeController()
+
+    controller.create_borehole(
+        "BH001",
+        "Southall",
+        3000
+    )
+
+    with pytest.raises(ValueError, match="Borehole already exists"):
+        controller.create_borehole(
+            "BH001",
+            "London",
+            2500
+        )
+
+def test_get_borehole():
+
+    controller = BoreholeController()
+
+    created_borehole = controller.create_borehole(
+        "BH001",
+        "Southall",
+        3000
+    )
+
+    retrieved_borehole = controller.get_borehole("BH001")
+
+    assert retrieved_borehole is created_borehole
+
+def test_get_nonexistent_borehole():
+
+    controller = BoreholeController()
+
+    with pytest.raises(ValueError, match="Borehole not found"):
+        controller.get_borehole("BH999")
